@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Words</title>
+    <style>
+
+        center{
+            margin-top: 200px;
+        }
+
+    </style>
+</head>
+<body>
+    <center>
+    <button onclick="generateWordOnClick()">Generate</button>
+    <br>
+    <br>
+    <div id="generatedWord">
+
+    </div>
+    </center>
+    <script>
+
+        function getRandomInt(max) { // excluded max
+            return Math.floor(Math.random() * max);
+        }
+
+
+        let C = ["b'", "d'", "g'", "m", "n", "ph", "s", "x", "l", "j", "r", "w", "sh"]
+        let V = ["â", "a", "e", "i", "o", "u"]
+        let K = ["b", "d", "g", "m", "n", "ng", "ph", "s", "x", "l", "j", "r", "w", "sh", "'"]
+
+        function generateSyllableWithCoda(){
+            let one = getRandomInt(C.length)
+            let onset = C[one]
+            let three = getRandomInt(K.length)
+            let coda = K[three]
+            let two = getRandomInt(V.length)
+            let core = V[two]
+
+            let syllable = onset + core + coda
+            return syllable
+        }
+
+        function generateSyllableWithoutCoda(){
+            let one = getRandomInt(C.length)
+            let onset = C[one]
+            let two = getRandomInt(V.length)
+            let core = V[two]
+
+            let syllable = onset + core
+            return syllable
+        }
+
+        function generateWordWithSyllables(n){
+            let word = ""
+            let i = 0
+            while (i < n){
+                let codaChoice = getRandomInt(2)
+                if (codaChoice == 0){
+                    word = word + generateSyllableWithoutCoda()
+                } else if (codaChoice == 1){
+                    word = word + generateSyllableWithCoda()
+                }
+                i += 1
+            }
+            return word
+        }
+
+        function generateWordOnClick(){
+            let displayContainer = document.getElementById("generatedWord")
+
+            let randomNumber = getRandomInt(3) + 1
+
+            displayContainer.innerText = ""
+            displayContainer.innerText = generateWordWithSyllables(randomNumber)
+        }
+
+    </script>
+</body>
+</html>
